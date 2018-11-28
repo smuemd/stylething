@@ -1,0 +1,80 @@
+{
+  "name": "stylething",
+  "version": "0.0.1",
+  "description": "A styled component factory on top of bss",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "standard | snazzy",
+    "pretest": "TEST=true npm run lint -s",
+    "test": "NODE_ENV=test nyc ava",
+    "test::util": "NODE_ENV=test ava test/util.test.js",
+    "bench::util": "NODE_ENV=test ava test/util.bench.js",
+    "bench::stylt": "NODE_ENV=test ava test/stylething.bench.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smuemd/stylething.git"
+  },
+  "keywords": [
+    "react",
+    "mithril",
+    "bss",
+    "css",
+    "style",
+    "components",
+    "js"
+  ],
+  "author": "smuemd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smuemd/stylething/issues"
+  },
+  "homepage": "https://github.com/smuemd/stylething#readme",
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/register": "^7.0.0",
+    "ava": "^0.25.0",
+    "chuhai": "^1.2.0",
+    "nyc": "^13.1.0",
+    "rollup": "^0.67.3",
+    "rollup-plugin-buble": "^0.19.4",
+    "rollup-plugin-filesize": "^5.0.1",
+    "rollup-plugin-uglify": "^6.0.0",
+    "snazzy": "^8.0.0",
+    "standard": "^12.0.1",
+    "window": "^4.2.5"
+  },
+  "ava": {
+    "verbose": "true",
+    "require": [
+      "./test/_register.js"
+    ],
+    "files": [
+      "test/**/*test.js"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@ava/stage-4"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "test/**/*",
+      "stylething.js",
+      "stylething.min.js",
+      "stylething.esm.js"
+    ]
+  },
+  "standard": {
+    "ignore": [
+      "stylething.js",
+      "stylething.min.js",
+      "stylething.esm.js"
+    ]
+  },
+  "dependencies": {
+    "bss": "^1.4.0"
+  }
+}
