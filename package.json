@@ -1,6 +1,6 @@
 {
   "name": "stylething",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Style aware components with BSS and Javascript",
   "main": "dist/stylething.js",
   "module": "dist/stylething.esm.js",
