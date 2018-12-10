@@ -27,6 +27,7 @@
   "keywords": [
     "react",
     "mithril",
+    "preact",
     "bss",
     "css",
     "css-in-js",
