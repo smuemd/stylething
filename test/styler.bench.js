@@ -1,14 +1,27 @@
 import test from 'ava'
 import suite from 'chuhai'
-import { handle1st, bss as parse, handle2nd, handleFns, createPrelimRes, preCompute, createStyleThing } from '../lib'
+
+import cssParser from 'bss'
+
+import {
+  handle1st,
+  handle2nd,
+  handleFns,
+  createPrelimRes,
+  preCompute,
+  createStyler
+} from '../lib/styler'
+
 import { compileSelector, isEmpty, mergeStyles, sortAttrs } from '../lib/util'
+
+const { TEST_CSS_PROP_OBJ } = require('./_cssProps')
 
 const Window = require('window')
 const { document } = new Window()
 
 // handle1st
 
-test('handle 1st', suite.macro, t => {
+test.only('handle 1st', suite.macro, t => {
   let res
   const sel = 'span#fromhandle1st.fn[cool]'
 
@@ -50,11 +63,11 @@ test('bss works under the hood', suite.macro, t => {
   })
 
   t.bench('parse Object', () => {
-    res = parse(style)
+    res = cssParser(style)
   })
 
   t.bench('parse String', () => {
-    res = parse(str)
+    res = cssParser(str)
   })
 })
 
@@ -95,7 +108,7 @@ test('handle2nd', suite.macro, t => {
     // }
     // const bssObj = 'klskdjf12'
 
-    res = handle2nd(bssObj)
+    res = handle2nd(bssObj, cssParser)
   })
 })
 
@@ -103,13 +116,6 @@ test('handle2nd', suite.macro, t => {
 
 test('handleFns', suite.macro, t => {
   let res
-  const refObj = require('./_cssProps')
-    .reduce((acc, k) => {
-      acc[k] = k; return acc
-    }, {
-      fs: 'fontSize',
-      bc: 'backgroundColor'
-    })
   const fns = [
     attrs => ({ backgroundColor: attrs.backgroundColor || 'pink' }),
     attrs => ({ fontSize: attrs.fontSize || '1.3px' })
@@ -117,7 +123,8 @@ test('handleFns', suite.macro, t => {
   const attrs = {
     bc: 'blue',
     fs: '1.3em',
-    padding: '15px'
+    padding: '15px',
+    foo: 'bar'
   }
 
   t.cycle(() => {
@@ -130,18 +137,19 @@ test('handleFns', suite.macro, t => {
   })
 
   t.bench('handle fns (production)', () => {
-    const { styleProps } = sortAttrs(attrs, refObj)
-    res = handleFns(fns, styleProps)
+    const { styleProps } = sortAttrs(attrs, TEST_CSS_PROP_OBJ)
+    res = handleFns(cssParser, fns, styleProps)
   })
 
+  const alt = (Fns, Props) => {
+    let ret = isEmpty(Fns)
+      ? {}
+      : fns.reduce((acc, f) => mergeStyles(acc, f(Props)), Props)
+    return isEmpty(ret) ? ret : cssParser(ret)
+  }
+
   t.bench('handle fns (alternative)', () => {
-    const { styleProps } = sortAttrs(attrs, refObj)
-    const alt = (Fns, Props) => {
-      let ret = isEmpty(Fns) // can be optimized, precomile default values, only render when attrs available
-        ? {}
-        : fns.reduce((acc, f) => mergeStyles(acc, f(Props)), Props)
-      return isEmpty(ret) ? ret : parse(ret)
-    }
+    const { styleProps } = sortAttrs(attrs, TEST_CSS_PROP_OBJ)
     res = alt(fns, styleProps)
   })
 })
@@ -165,7 +173,7 @@ test('createPrelimRes', suite.macro, t => {
     }
   }
   const parent = handle1st(sel)
-  const parsedThing = handle2nd(bssObj)
+  const parsedThing = handle2nd(bssObj, cssParser)
   const fns = [
     attrs => ({ backgroundColor: attrs.backgroundColor || 'blue' }),
     attrs => ({ fontSize: attrs.fontSize || '7px' })
@@ -193,11 +201,11 @@ test('createPrelimRes', suite.macro, t => {
   })
 
   t.bench('createPrelimRes w/ class output', () => {
-    resA = createPrelimRes(parent, parsedThing, fns)
+    resA = createPrelimRes(parent, parsedThing, cssParser, fns)
   })
 
   t.bench('createPrelimRes w/ style output', () => {
-    resB = createPrelimRes(parent, parsedThing, fns, {}, 'style')
+    resB = createPrelimRes(parent, parsedThing, cssParser, fns, {}, 'style')
   })
 })
 
@@ -225,9 +233,10 @@ test('precompute', suite.macro, t => {
           padding: '1em'
         }
       },
+      cssParser,
       fns
     )
-    resA = preCompute(prelim, fns)
+    resA = preCompute(prelim, cssParser, fns)
   })
 })
 
@@ -252,10 +261,10 @@ test('compute', suite.macro, t => {
     // attrs => ({ other: attrs.other || '999px' })
   ]
 
-  const A = createPrelimRes(parent, parsedThing, fns)
-  const B = createPrelimRes(parent, parsedThing, fns, {}, 'style')
-  const computeA = preCompute(A.prelim, fns)
-  const computeB = preCompute(B.prelim, fns, {}, 'style')
+  const A = createPrelimRes(parent, parsedThing, cssParser, fns)
+  const B = createPrelimRes(parent, parsedThing, cssParser, fns, {}, 'style')
+  const computeA = preCompute(A.prelim, cssParser, fns)
+  const computeB = preCompute(B.prelim, cssParser, fns, {}, 'style')
 
   const stylProps = {
     backgroundColor: 'red',
@@ -295,15 +304,16 @@ test('compute', suite.macro, t => {
   })
 })
 
-// createStyleThing / stylt
+// createStyler / stylt
 
-test.only('stylt', suite.macro, t => {
+test.skip('stylt', suite.macro, t => {
   let res
   const React = { createElement: (tag, props) => ({ tag, props }) }
-  const stylt = createStyleThing(React, { outputType: 'class' })
+  const stylt = createStyler(cssParser, { React, outputType: 'class' })
 
   const sel = 'span#fromhandle1st.One[cool]'
   const RComp = stylt(sel, { className: 'two', style: { backgroundColor: 'pink' } })
+
   t.cycle(() => {
     if (res) console.log(res)
     t.pass()

@@ -17,7 +17,7 @@ test('createReactComp creates a stylt function', t => {
 test('createMithrilComp creates a stylt object with a view fn', t => {
   const MComp = createMithrilComp(MithrilStub, { __stylt, compute })
 
-  t.true(typeof MComp === 'object')
+  t.true(typeof MComp === 'function')
   t.deepEqual(MComp.stylt, __stylt)
 })
 
@@ -50,7 +50,7 @@ test('calling ReactComp with props creates a DOM elmement obj', t => {
 
 test('calling MithrilComp with props creates a DOM element obj', t => {
   const MComp = createMithrilComp(MithrilStub, { __stylt, compute })
-  const res = MComp.view(vnode)
+  const res = MComp(vnode).view()
 
   t.deepEqual(res, {
     tag: 'table',

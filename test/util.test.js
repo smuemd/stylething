@@ -3,14 +3,16 @@ import {
   isEmpty,
   mergeStyles,
   sortAttrs,
-  compileSelector, __findWidthTest, CSS_PROPERTIES
+  compileSelector, __findWidthTest, CSS_PROPERTIES, CSS_PROP_OBJ
 } from '../lib/util'
 
-const Window = require('window')
-const { document } = new Window()
+const { TEST_CSS_PROPERTIES, TEST_CSS_PROP_OBJ } = require('./_cssProps')
 
-test('CSS_PROPS is empty', t => {
-  t.deepEqual(CSS_PROPERTIES, [ 'float' ], 'no elements in node environment')
+test('CSS_PROPS & CSS_PROP_OBJ', t => {
+  t.is(CSS_PROPERTIES.length, 1)
+  t.is(TEST_CSS_PROPERTIES.length, 406)
+  t.is(Object.keys(CSS_PROP_OBJ).length, 43)
+  t.is(Object.keys(TEST_CSS_PROP_OBJ).length, 406 + 43 - 2)
 })
 
 // isEmpty
@@ -56,12 +58,9 @@ test('compileSelector parses hyperscript string', (t) => {
 // findWidth
 
 test('findWith does something', t => {
-  const a = __findWidthTest(document.documentElement.style)
-
-  t.pass(a)
+  const a = __findWidthTest({})
   t.is(typeof a, 'object')
-  t.true(Object.keys(a).length > 750) // 751
-  t.false(document.documentElement.style.hasOwnProperty('width'))
+  t.true(Object.keys(a).length === 0)
 })
 
 // hasCssProps
@@ -157,15 +156,20 @@ test('mergeStyles does not mutate its arguments', t => {
   })
 })
 
+test('mergeStyles don\'t deep merge arrays', t => {
+  const a = mergeStyles({ array: [1, 2, 3] }, { array: 'overwritten' })
+
+  t.is(a.array, 'overwritten')
+})
+
 // sortAttrs
 
 test('sortAttrs distinguishes style props form other attrs', t => {
-  const refObj = { fontSize: 'fontSize', fs: 'fontSize', bg: 'backgroundColor' }
   const a = sortAttrs({
     onClick: 'x => x',
     fontSize: '1em',
     bg: 'pink'
-  }, refObj)
+  }, TEST_CSS_PROP_OBJ)
 
   const { styleProps, rest } = a
 

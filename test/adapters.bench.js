@@ -4,6 +4,8 @@ import suite from 'chuhai'
 import { createReactComp, createMithrilComp } from '../lib/adapters'
 import { sortAttrs } from '../lib/util'
 
+const { TEST_CSS_PROP_OBJ } = require('./_cssProps')
+
 const cacheObj = {}
 const __stylt = { tag: 'span', attrs: { defaultAttribute: 'here', className: 'default' } }
 const compute = (styleProps) => ({ style: styleProps.style, className: styleProps.className })
@@ -40,7 +42,7 @@ test('call react components', suite.macro, t => {
   const ReactComp = createReactComp(ReactStub, { __stylt, compute })
   const MithrilComp = createMithrilComp(MithrilStub, { __stylt, compute })
   const ReactCompManual = function (props) {
-    const { styleProps, rest } = sortAttrs(props)
+    const { styleProps, rest } = sortAttrs(props, TEST_CSS_PROP_OBJ)
     const stylePropsStr = JSON.stringify(styleProps)
     const $cached = cacheObj[stylePropsStr]
     const computed = $cached || compute(styleProps)
@@ -78,7 +80,7 @@ test('call react components', suite.macro, t => {
     res = MithrilComp.view({ attrs })
   })
 
-  t.pass('call manually constructed react component', () => {
+  t.bench('call manually constructed react component', () => {
     res = ReactCompManual(attrs)
   })
 })

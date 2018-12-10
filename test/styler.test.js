@@ -1,9 +1,12 @@
 import test from 'ava'
-import { handle1st, bss, handle2nd, handleFns, createPrelimRes, preCompute, createStyleThing } from '../lib'
+import cssParser from 'bss'
+import { handle1st, handle2nd, handleFns, createPrelimRes, preCompute, createStyler } from '../lib/styler'
 import { sortAttrs } from '../lib/util'
 
 const Window = require('window')
 const { document } = new Window()
+
+const { TEST_CSS_PROP_OBJ } = require('./_cssProps')
 
 // handle1st
 
@@ -53,8 +56,8 @@ test('handle1st test element string provided via document.createElement', t => {
 
 // parse
 
-test('bss works', t => {
-  const parsed = bss({ fontSize: '1em' })
+test('css parser (bss) works', t => {
+  const parsed = cssParser({ fontSize: '1em' })
 
   t.true(typeof parsed === 'object')
   t.deepEqual(parsed.style, { fontSize: '1em' })
@@ -63,14 +66,12 @@ test('bss works', t => {
 
 // handle2nd
 
-const cssPropsStub = require('./_cssProps')
-
 test('handle2nd returns bss style def obj', t => {
-  const thing = bss({
+  const thing = cssParser({
     backgroundColor: 'pink',
     fontSize: '1.3px'
   })
-  const a = handle2nd(thing, cssPropsStub)
+  const a = handle2nd(thing, cssParser)
 
   t.true(typeof a === 'object')
   t.true(typeof a.class === 'string')
@@ -86,7 +87,7 @@ test('handle2nd prioritises className, class attribute', t => {
     fontSize: '1px'
   }
 
-  const a = handle2nd(thing, cssPropsStub)
+  const a = handle2nd(thing, cssParser)
 
   t.is(a.class, 'test', 'additional attrs not parsed')
   t.is(a.style, undefined, '1st level css attr is ignored')
@@ -99,8 +100,8 @@ test('handle2nd prioritises style or css attrs', t => {
   }
   const style = css
 
-  const a = handle2nd({ css, lineHeight: '2em' }, cssPropsStub)
-  const b = handle2nd({ className: 'test', style, backgroundColor: 'black' }, cssPropsStub)
+  const a = handle2nd({ css, lineHeight: '2em' }, cssParser)
+  const b = handle2nd({ className: 'test', style, backgroundColor: 'black' }, cssParser)
 
   t.true(typeof a.class === 'string' && typeof b.class === 'string')
   t.deepEqual(a.style, {
@@ -117,7 +118,7 @@ test('handle2nd handles css attributes', t => {
     fontSize: '1.3px'
   }
 
-  const a = handle2nd(thing, cssPropsStub)
+  const a = handle2nd(thing, cssParser)
 
   t.true(typeof a === 'object')
   t.true(typeof a.class === 'string')
@@ -129,27 +130,19 @@ test('handle2nd handles css attributes', t => {
 
 test('handle2nd handles String', t => {
   const str = 'test'
-  const a = handle2nd(str, cssPropsStub)
+  const a = handle2nd(str, cssParser)
   t.is(a.class, str)
 })
 
 test('handle2nd handles Function arg', t => {
   const thing = x => x
-  const a = handle2nd(thing)
+  const a = handle2nd(thing, cssParser)
   t.deepEqual(a, {}, 'returns nothing (i. e. empty obj)')
 })
 
 // handle Fns
 
 test('handleFns returns class style obj', t => {
-  const refObj = require('./_cssProps')
-    .reduce((acc, k) => {
-      acc[k] = k; return acc
-    }, {
-      fs: 'fontSize',
-      bc: 'backgroundColor'
-    })
-
   const fns = [
     attrs => ({ backgroundColor: attrs.backgroundColor || 'pink' }),
     attrs => ({ fontSize: attrs.fontSize || '1.3px' })
@@ -161,8 +154,8 @@ test('handleFns returns class style obj', t => {
     padding: '15px'
   }
 
-  const { styleProps } = sortAttrs(attrs, refObj)
-  const a = handleFns(fns, styleProps)
+  const { styleProps } = sortAttrs(attrs, TEST_CSS_PROP_OBJ)
+  const a = handleFns(cssParser, fns, styleProps)
 
   t.true(typeof a === 'object')
   t.true(typeof a.class === 'string')
@@ -183,7 +176,7 @@ test.todo('handleFns returns class string')
 
 test('createPrelimRes returns correct preliminary result and __stylt obj', t => {
   const sel = 'span#fromhandle1st.One[cool]'
-  // const bssObj = parse`
+  // const bssObj = cssParser`
   //   backgroundColor: pink,
   //   fontSize: 1.3px,
   //   padding: 1em`
@@ -196,14 +189,14 @@ test('createPrelimRes returns correct preliminary result and __stylt obj', t => 
     }
   }
   const parent = handle1st(sel)
-  const parsedThing = handle2nd(bssObj)
+  const parsedThing = handle2nd(bssObj, cssParser)
   const fns = [
     attrs => ({ backgroundColor: attrs.backgroundColor || 'blue' }),
     attrs => ({ fontSize: attrs.fontSize || '7px' })
   ]
 
-  const A = createPrelimRes(parent, parsedThing, fns)
-  const B = createPrelimRes(parent, parsedThing, fns, {}, 'style')
+  const A = createPrelimRes(parent, parsedThing, cssParser, fns)
+  const B = createPrelimRes(parent, parsedThing, cssParser, fns, {}, 'style')
 
   t.is(A.prelim.className.split(' ').length, 3)
   t.is(A.prelim.style, undefined)
@@ -225,20 +218,19 @@ test('createPrelimRes returns correct preliminary result and __stylt obj', t => 
 test('preCompute returns compute function', t => {
   const { prelim } = createPrelimRes(
     { tag: 'div', attrs: { className: 'One' } },
-    {
-      class: 'two',
+    { class: 'two',
       style: {
         backgroundColor: 'pink',
         fontSize: '1.3px',
         padding: '1em'
       }
     },
-    [
-      attrs => ({ backgroundColor: attrs.backgroundColor || 'blue' }),
-      attrs => ({ fontSize: attrs.fontSize || '7px' })
-    ]
+    cssParser,
+    [ attrs => ({ backgroundColor: attrs.backgroundColor || 'blue' }),
+      attrs => ({ fontSize: attrs.fontSize || '7px' }) ]
   )
-  const a = preCompute(prelim, [
+
+  const a = preCompute(prelim, cssParser, [
     attrs => ({ backgroundColor: attrs.backgroundColor || 'blue' }),
     attrs => ({ fontSize: attrs.fontSize || '7px' })
   ])
@@ -261,12 +253,12 @@ test('compute returns correct className string or style object', t => {
     attrs => ({ fontSize: attrs.fontSize || '7px' })
   ]
 
-  const A = createPrelimRes(parent, parsedT, fns)
-  const B = createPrelimRes(parent, parsedT, fns, {}, 'style')
+  const A = createPrelimRes(parent, parsedT, cssParser, fns)
+  const B = createPrelimRes(parent, parsedT, cssParser, fns, {}, 'style')
 
-  const computeA = preCompute(A.prelim, fns)
+  const computeA = preCompute(A.prelim, cssParser, fns)
 
-  const computeB = preCompute(B.prelim, fns, {}, 'style')
+  const computeB = preCompute(B.prelim, cssParser, fns, {}, 'style')
 
   const a = computeA({ backgroundColor: 'red', fontSize: '2em', padding: '7px' })
   const b = computeB({ backgroundColor: 'red', fontSize: '2em', lineHeight: '2px' })
@@ -287,11 +279,12 @@ test('compute returns correct className string or style object', t => {
   })
 })
 
-// createStyleThing
+// createStyler
+
 test('create stylething returns a stylt', t => {
   const React = { createElement: (tag, props) => ({ tag, props }) }
   // const m = (t, a, ...c) => ({ tag: t, vnode: { attrs: a, children: c } })
-  const stylt = createStyleThing(React)
+  const stylt = createStyler(cssParser, { React })
   t.is(typeof stylt, 'function')
 })
 
@@ -299,7 +292,7 @@ test('create stylething returns a stylt', t => {
 
 test('stylt parses hyperscript', t => {
   const React = { createElement: (tag, props) => ({ tag, props }) }
-  const stylt = createStyleThing(React, { outputType: 'class' })
+  const stylt = createStyler(cssParser, { React, outputType: 'class' })
 
   const sel = 'span#fromhandle1st.One[cool]'
   const RComp = stylt(sel, { className: 'two', style: { backgroundColor: 'pink' } })
