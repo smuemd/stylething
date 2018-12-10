@@ -1,16 +1,23 @@
 {
   "name": "stylething",
-  "version": "0.0.1",
-  "description": "A styled component factory on top of bss",
+  "version": "1.1.0",
+  "description": "Style aware components with BSS and Javascript",
   "main": "index.js",
   "scripts": {
-    "build": "rollup -c",
-    "lint": "standard | snazzy",
-    "pretest": "TEST=true npm run lint -s",
-    "test": "NODE_ENV=test nyc ava",
-    "test::util": "NODE_ENV=test ava test/util.test.js",
+    "bench::adapters": "NODE_ENV=test ava test/adapters.bench.js",
+    "bench::styler": "NODE_ENV=test ava test/styler.bench.js",
     "bench::util": "NODE_ENV=test ava test/util.bench.js",
-    "bench::stylt": "NODE_ENV=test ava test/stylething.bench.js"
+    "build": "rollup -c",
+    "clean": "rm -rf dist && mkdir dist",
+    "cover": "nyc report --reporter=html --reporter=lcov > coverage.lcov",
+    "codecov": "nyc report --reporter=html --reporter=lcov > coverage.lcov && npx codecov",
+    "lint": "standard | snazzy",
+    "prepare": "npm run clean && npm run build",
+    "pretest": "NODE_ENV=test npm run lint -s",
+    "test": "NODE_ENV=test nyc ava",
+    "test::adapters": "NODE_ENV=test ava test/adapters.test.js",
+    "test::styler": "NODE_ENV=test ava test/styler.test.js",
+    "test::util": "NODE_ENV=test ava test/util.test.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +28,7 @@
     "mithril",
     "bss",
     "css",
+    "css-in-js",
     "style",
     "components",
     "js"
@@ -34,6 +42,7 @@
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/register": "^7.0.0",
+    "bss": "^1.4.0",
     "ava": "^0.25.0",
     "chuhai": "^1.2.0",
     "nyc": "^13.1.0",
@@ -46,13 +55,13 @@
     "window": "^4.2.5"
   },
   "ava": {
-    "verbose": "true",
+    "files": [
+      "test/**/*test.js"
+    ],
     "require": [
       "./test/_register.js"
     ],
-    "files": [
-      "test/**/*test.js"
-    ]
+    "verbose": "true"
   },
   "babel": {
     "presets": [
@@ -62,19 +71,17 @@
   "nyc": {
     "exclude": [
       "test/**/*",
-      "stylething.js",
-      "stylething.min.js",
-      "stylething.esm.js"
+      "dist/stylething.js",
+      "dist/stylething.min.js",
+      "dist/stylething.esm.js"
     ]
   },
   "standard": {
     "ignore": [
-      "stylething.js",
-      "stylething.min.js",
-      "stylething.esm.js"
+      "dist/stylething.js",
+      "dist/stylething.min.js",
+      "dist/stylething.esm.js"
     ]
   },
-  "dependencies": {
-    "bss": "^1.4.0"
-  }
+  "peerDependencies": { "bss": "^1.4.0" }
 }
