@@ -63,5 +63,15 @@ typings/
 # webstorm config
 .idea/
 
-# compiled assets
-dist/
+# project files
+lib
+test
+examples
+rollup.config.js
+CHANGELOG.md
+.travis.yml
+.editorconfig
+.eslintignore
+.eslintrc
+.babelrc
+.gitignore
