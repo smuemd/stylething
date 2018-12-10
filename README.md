@@ -17,6 +17,8 @@ Style aware components on top of [BSS][bss].
 [github]: https://github.com/smuemd/stylething
 [bundlephobia]: https://bundlephobia.com/result?p=stylething
 
+[bss]: https://github.com/porsager/bss
+[systhing]: https://github.com/smuemd/systemthing
 
 ```sh
 npm i stylething
@@ -400,6 +402,3 @@ Live example [is availabe here](https://flems.io/#0=N4IgtglgJlA2CmIBcA2ArAOhQFgD
 
 
 [MIT License](LICENSE)
-
-[bss]: https://github.com/porsager/bss
-[systhing]: https://github.com/smuemd/systemthing
