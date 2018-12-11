@@ -281,11 +281,46 @@ test('compute returns correct className string or style object', t => {
 
 // createStyler
 
-test('create stylething returns a stylt', t => {
+test('createStyler returns a stylt component', t => {
   const React = { createElement: (tag, props) => ({ tag, props }) }
-  // const m = (t, a, ...c) => ({ tag: t, vnode: { attrs: a, children: c } })
-  const stylt = createStyler(cssParser, { React })
-  t.is(typeof stylt, 'function')
+  const m = (t, a, ...c) => ({ tag: t, vnode: { attrs: a, children: c } })
+  const h = (t, a, ...c) => ({ tag: t, props: { ...a, children: c } })
+
+  const styledR = createStyler(cssParser, { React })
+  const styledM = createStyler(cssParser, { m })
+  const styledH = createStyler(cssParser, { preact: { h } })
+  const styledU = createStyler(cssParser, {})
+
+  const staticStyle = { p: '12px' }
+  const props = { m: '20px' }
+
+  const rEl = styledR('div', staticStyle)
+  const mEl = styledM('div', staticStyle)
+  const hEl = styledH('div', staticStyle)
+  const err = t.throws(() => styledU('div', staticStyle), Error)
+
+  t.is(typeof styledR, 'function')
+  t.is(typeof styledM, 'function')
+  t.is(typeof styledH, 'function')
+  t.is(typeof styledU, 'function')
+
+  t.is(typeof rEl, 'function')
+  t.is(rEl.stylt.tag, 'div')
+  t.is(rEl.stylt.attrs.className.split(' ').length, 1)
+  t.is(typeof mEl, 'function')
+  t.is(mEl.stylt.tag, 'div')
+  t.is(mEl.stylt.attrs.className.split(' ').length, 1)
+  t.is(typeof hEl, 'function')
+  t.is(hEl.stylt.tag, 'div')
+  t.is(hEl.stylt.attrs.className.split(' ').length, 1)
+  t.is(err.message, '[Stylething createStyler] No renderer found in options!')
+
+  t.is(rEl(props).tag, 'div')
+  t.is(rEl(props).props.className.split(' ').length, 2)
+  t.is(mEl({ attrs: props }).view().tag, 'div')
+  t.is(mEl({ attrs: props }).view().vnode.attrs.className.split(' ').length, 2)
+  t.is(hEl(props).tag, 'div')
+  t.is(hEl(props).props.className.split(' ').length, 2)
 })
 
 // stylt
