@@ -1,6 +1,12 @@
 
 # Changelog
 
+## v1.3 2018-12-11
+
+- add [preact](https://preactjs.com) support
+- add and expose default theme
+- minor non-breaking internal changes in lib/styler.js
+
 ## v1.2 2018-12-10
 
 - fix bug in json `main` field
