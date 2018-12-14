@@ -2,8 +2,8 @@
   "name": "stylething",
   "version": "1.2.0",
   "description": "Style aware components with BSS and Javascript",
-  "main": "dist/stylething.js",
-  "module": "dist/stylething.esm.js",
+  "main": "dist",
+  "module": "dist/esm",
   "scripts": {
     "bench::adapters": "NODE_ENV=test ava test/adapters.bench.js",
     "bench::styler": "NODE_ENV=test ava test/styler.bench.js",

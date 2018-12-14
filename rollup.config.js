@@ -8,7 +8,7 @@ export default [
     external: ['bss'],
     input: 'lib/index.js',
     output: {
-      file: 'dist/stylething.js',
+      file: 'dist/index.js',
       exports: 'named',
       format: 'umd',
       name: 'stylething',
@@ -27,7 +27,7 @@ export default [
     external: ['bss'],
     input: 'lib/index.js',
     output: {
-      file: 'dist/stylething.min.js',
+      file: 'dist/index.min.js',
       exports: 'named',
       format: 'umd',
       name: 'stylething',
@@ -45,7 +45,44 @@ export default [
     external: ['bss'],
     input: 'lib/index.js',
     output: {
-      file: 'dist/stylething.esm.js',
+      file: 'dist/esm/index.js',
+      format: 'esm',
+      sourcemap: true
+    },
+    plugins: [
+      buble(),
+      filesize()
+    ]
+  }, {
+    input: 'lib/theme.js',
+    output: {
+      file: 'dist/theme.js',
+      exports: 'named',
+      format: 'umd',
+      name: 'defaultTheme',
+      sourcemap: true
+    },
+    plugins: process.env.TEST
+      ? []
+      : [ buble(), filesize() ]
+  }, {
+    input: 'lib/theme.js',
+    output: {
+      file: 'dist/theme.min.js',
+      exports: 'named',
+      format: 'umd',
+      name: 'defaultTheme',
+      sourcemap: true
+    },
+    plugins: [
+      buble(),
+      uglify({ mangle: true, compress: true }),
+      filesize()
+    ]
+  }, {
+    input: 'lib/theme.js',
+    output: {
+      file: 'dist/esm/theme.js',
       format: 'esm',
       sourcemap: true
     },
