@@ -67,6 +67,7 @@ typings/
 lib
 test
 examples
+docs
 rollup.config.js
 CHANGELOG.md
 .travis.yml
