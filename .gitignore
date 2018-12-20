@@ -65,3 +65,4 @@ typings/
 
 # compiled assets
 dist/
+stylething*.js*

@@ -2,14 +2,14 @@
   "name": "stylething",
   "version": "1.3.0",
   "description": "Style aware components with BSS and Javascript",
-  "main": "dist/index.js",
-  "module": "dist/esm/index.js",
+  "main": "stylething.js",
+  "module": "stylething.esm.js",
   "scripts": {
     "bench::adapters": "NODE_ENV=test ava test/adapters.bench.js",
     "bench::styler": "NODE_ENV=test ava test/styler.bench.js",
     "bench::util": "NODE_ENV=test ava test/util.bench.js",
     "build": "rollup -c",
-    "clean": "rm -rf dist && mkdir dist",
+    "clean": "rm -f stylething.js; rm -f stylething.min.js; rm -f stylething.esm.js; rm -rf dist",
     "cover": "nyc report --reporter=html --reporter=lcov > coverage.lcov",
     "codecov": "nyc report --reporter=html --reporter=lcov > coverage.lcov && npx codecov",
     "lint": "standard | snazzy",
@@ -73,16 +73,16 @@
   "nyc": {
     "exclude": [
       "test/**/*",
-      "dist/stylething.js",
-      "dist/stylething.min.js",
-      "dist/stylething.esm.js"
+      "stylething.js",
+      "stylething.min.js",
+      "stylething.esm.js"
     ]
   },
   "standard": {
     "ignore": [
-      "dist/stylething.js",
-      "dist/stylething.min.js",
-      "dist/stylething.esm.js"
+      "stylething.js",
+      "stylething.min.js",
+      "stylething.esm.js"
     ]
   },
   "peerDependencies": { "bss": "^1.4.0" }
