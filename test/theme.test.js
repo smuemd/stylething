@@ -1,5 +1,5 @@
 import test from 'ava'
-import { dfaultTheme } from '../lib/index'
+import { theme } from '../lib/index'
 
 test('has theme obj with expected props', t => {
   const {
@@ -8,7 +8,7 @@ test('has theme obj with expected props', t => {
     fontSizes,
     radii,
     colors
-  } = dfaultTheme
+  } = theme
 
   t.true(Array.isArray(breakpoints))
   t.true(Array.isArray(space))

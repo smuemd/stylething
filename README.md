@@ -55,10 +55,10 @@ Then create a `styled` component factory by configuring Stylething's `createStyl
 ```js
 import m from 'mithril'
 import b from 'bss'
-import { createStyler } from 'stylething'
+import { createComponentFactory } from 'stylething'
 
 // Set up styled component factory
-const styled = createStyler(b, { m, outputType: 'class' })
+const styled = createComponentFactory(b, { m, outputType: 'class' })
 
 // create a component
 const PlainButton = styled('button')

@@ -1,8 +1,8 @@
 import test from 'ava'
 import b from 'bss'
-import { createBssHelpers, dfaultTheme } from '../lib'
+import { createBssHelpers, theme } from '../lib'
 
-const Hlprs = createBssHelpers(b, dfaultTheme)
+const Hlprs = createBssHelpers(b, theme)
 
 b.helper(Hlprs)
 

@@ -9,7 +9,7 @@ import {
   handleFns,
   createPrelimRes,
   preCompute,
-  createStyler
+  createComponentFactory
 } from '../lib/styler'
 
 import { compileSelector, isEmpty, mergeStyles, sortAttrs } from '../lib/util'
@@ -304,12 +304,12 @@ test('compute', suite.macro, t => {
   })
 })
 
-// createStyler / stylt
+// createComponentFactory / stylt
 
 test.skip('stylt', suite.macro, t => {
   let res
   const React = { createElement: (tag, props) => ({ tag, props }) }
-  const stylt = createStyler(cssParser, { React, outputType: 'class' })
+  const stylt = createComponentFactory(cssParser, { React, outputType: 'class' })
 
   const sel = 'span#fromhandle1st.One[cool]'
   const RComp = stylt(sel, { className: 'two', style: { backgroundColor: 'pink' } })

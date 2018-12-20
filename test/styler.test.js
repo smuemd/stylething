@@ -1,6 +1,7 @@
 import test from 'ava'
 import cssParser from 'bss'
-import { handle1st, handle2nd, handleFns, createPrelimRes, preCompute, createStyler } from '../lib/styler'
+import { handle1st, handle2nd, handleFns, createPrelimRes, preCompute } from '../lib/styler'
+import { createComponentFactory, createStyler } from '../lib'
 import { sortAttrs } from '../lib/util'
 
 const Window = require('window')
@@ -9,7 +10,6 @@ const { document } = new Window()
 const { TEST_CSS_PROP_OBJ } = require('./_cssProps')
 
 // handle1st
-
 test('handle1st creates stylt parent', t => {
   const a = handle1st('span#fromhandle1st.fn[cool]', document)
   t.deepEqual(a, {
@@ -279,17 +279,20 @@ test('compute returns correct className string or style object', t => {
   })
 })
 
-// createStyler
+// createComponentFactory
 
-test('createStyler returns a stylt component', t => {
+test('createComponentFactory alias createStyler', t => {
+  t.is(createComponentFactory, createStyler)
+})
+test('createComponentFactory returns a styled component factory', t => {
   const React = { createElement: (tag, props) => ({ tag, props }) }
   const m = (t, a, ...c) => ({ tag: t, vnode: { attrs: a, children: c } })
   const h = (t, a, ...c) => ({ tag: t, props: { ...a, children: c } })
 
-  const styledR = createStyler(cssParser, { React })
-  const styledM = createStyler(cssParser, { m })
-  const styledH = createStyler(cssParser, { preact: { h } })
-  const styledU = createStyler(cssParser, {})
+  const styledR = createComponentFactory(cssParser, { React })
+  const styledM = createComponentFactory(cssParser, { m })
+  const styledH = createComponentFactory(cssParser, { preact: { h } })
+  const styledU = createComponentFactory(cssParser, {})
 
   const staticStyle = { p: '12px' }
   const props = { m: '20px' }
@@ -313,7 +316,7 @@ test('createStyler returns a stylt component', t => {
   t.is(typeof hEl, 'function')
   t.is(hEl.stylt.tag, 'div')
   t.is(hEl.stylt.attrs.className.split(' ').length, 1)
-  t.is(err.message, '[Stylething createStyler] No renderer found in options!')
+  t.is(err.message, '[Stylething compFactory] No renderer found in options!')
 
   t.is(rEl(props).tag, 'div')
   t.is(rEl(props).props.className.split(' ').length, 2)
@@ -327,7 +330,7 @@ test('createStyler returns a stylt component', t => {
 
 test('stylt parses hyperscript', t => {
   const React = { createElement: (tag, props) => ({ tag, props }) }
-  const stylt = createStyler(cssParser, { React, outputType: 'class' })
+  const stylt = createComponentFactory(cssParser, { React, outputType: 'class' })
 
   const sel = 'span#fromhandle1st.One[cool]'
   const RComp = stylt(sel, { className: 'two', style: { backgroundColor: 'pink' } })
