@@ -50,7 +50,7 @@ npm i mithril bss stylething
 ### Setup
 
 First, import the Vdom library and BSS.
-Then create a `styled` component factory by configuring Stylething's `createStyler` function.
+Then create a `styled` component factory.
 
 ```js
 import m from 'mithril'
@@ -63,7 +63,7 @@ const styled = createComponentFactory(b, { m, outputType: 'class' })
 // create a component
 const PlainButton = styled('button')
 ```
-Stylething ships without dependencies. Hence passing the `BSS` and `Mithril` instance into `createStyler` is required to set up the `styled` component factory.
+Stylething ships without dependencies. Hence passing the `BSS` and `Mithril` instance into `createComponentFactory` is required to instrument the `styled` function.
 
 ### Style aware components
 
