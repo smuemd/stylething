@@ -2,15 +2,17 @@
 
 # Widths
 
-The widths module contains both a five-step width scale based on powers of two as well as a series of percentage values that can be combined with floats for an infinitely nestable and fully responsive grid system.
+Set the width of of an element based on percentage values that can be combined with floats for an infinitely nestable and fully responsive grid system.
+
+Also support traditional value in `px`, `em` etc.
 
 
-Idiomatic usage patterns:
-
+static `width` styles
+ 
 ```js
-import m from 'mithril'
+/* global m */
 import b from 'bss'
-import { createStyler, dfaultTheme } from 'stylething'
+import { createStyler } from 'stylething'
 
 const styled = createStyler(b, { m })
 

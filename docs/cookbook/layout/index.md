@@ -13,5 +13,4 @@
 - [Widths](widths.md)
 - [Max Width](max-widths.md)
 - [Heigts](heights.md)
-- [Debugging](#debugging)
-- [Debug Grid](#debug-grid)
+- [Debugging](debugging.md)

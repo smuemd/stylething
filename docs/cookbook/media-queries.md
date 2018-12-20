@@ -1,6 +1,6 @@
 ###### [Style Cookbook](index.md)
 
-# Custom Media Queries
+# Media Queries
 
 Media query values can be changed to fit your own content.
   There are no magic bullets when it comes to media query width values.
@@ -8,71 +8,41 @@ Media query values can be changed to fit your own content.
   the needs of your content. You can also add additional media queries,
   or remove some of the existing ones.
 
-```js
-// theme.js
-export const breakpoints = [
-  '30em', // [0] === 480px
-  '60em'  // [1] === 960px
-]
-```
+## BSS helpers
 
-BSS helpers
+Stylething comes with support for three default media query helpers.
 
+- `b.$notSmall(style)` - from `30em` and up
+- `b.$medium(style)` - between `30em` and `60em`
+- `b.$large(style)` - more than `60em`
+
+### Setup
+
+Default BSS media query groupers are initialized by passing the return value of  `createBssHelpers` into the `b.helper` function.
 ```js
-import { dfaultTheme } from 'stylething'
 import b from 'bss'
+import { dfaultTheme, createBssHelpers } from 'stylething'
 
-const { breakpoints } = dfaultTheme
-
-// BSS media query groupers
-
-b.helper('$notSmall', style =>
-  b.$media(`screen and (min-width: ${breakpoints[0]})`, style))
-
-b.helper('$medium', style =>
-  b.$media(
-    `screen and (min-width: ${breakpoints[0]}) and (max-width: ${breakpoints[1]})`, 
-    style
-  )
-)
-
-b.helper('$large', style =>
-  b.$media(`screen and (min-width: ${breakpoints[1]})`, style))
+// initialize helpers
+b.helper(createBssHelpers(b, dfaultTheme))
 ```
 
-Idiomatic usage patterns:
+## Usage
+
+Once initialized, default query groupers are available on the the BSS instance.
 
 ```js
+/* global b */
 import m from 'mithril'
-import b from 'bss'
-import { createStyler, dfaultTheme } from 'stylething'
-import { colors } from 'systemthing/core'
+import { createStyler } from 'stylething'
 
 const styled = createStyler(b, { m })
-const { fontSizes } = dfaultTheme
+const Component = styled('div', b('bc green').$notSmall('bc blue').$large('bc pink'))
 
-const CompA = styled('div', b`
-  bc green
-`.$notSmall`
-  bc blue
-`.$large`
-  bc pink
-`)
-const CompB = styled('div', colors)
-const CompC = '.div' + b`
- bc green
-`.$notSmall`
- bc blue
-`.$large`
- bc pink
-`
-
-const A = m(CompA, 'Equivalent to B and C')
-const B = m(CompB, { bc: ['green', 'blue', 'pink']}, 'Eqivalent to A and C')
-const C = m(CompC, 'Equivalent to A and B')
+m.mount(document.body, { view: () =>
+  m(Component, 'backgroundColor: green -> blue -> pink')
+})
 ```
-
-Inspiration Tachyons:
 
 <!-- Tachyons inspiration
 ```postcss
