@@ -15,7 +15,7 @@ Style aware components on top of [BSS][bss].
 [npm]: https://npmjs.com/package/stylething
 [travis]: https://travis-ci.org/smuemd/stylething
 [github]: https://github.com/smuemd/stylething
-[bundlephobia]: https://bundlephobia.com/result?p=stylething@1.2.0
+[bundlephobia]: https://bundlephobia.com/result?p=stylething
 
 [bss]: https://github.com/porsager/bss
 [systhing]: https://github.com/smuemd/systemthing
