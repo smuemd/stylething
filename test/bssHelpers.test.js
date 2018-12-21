@@ -1,6 +1,7 @@
 import test from 'ava'
 import b from 'bss'
-import { createBssHelpers, theme } from '../lib'
+import { createBssHelpers } from '../lib/bssHelpers'
+import * as theme from '../lib/theme'
 
 const Hlprs = createBssHelpers(b, theme)
 
