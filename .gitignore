@@ -66,3 +66,6 @@ typings/
 # compiled assets
 dist/
 stylething*.js*
+theme*.js*
+bssHelpers*.js*
+

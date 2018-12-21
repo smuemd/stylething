@@ -9,7 +9,7 @@
     "bench::styler": "NODE_ENV=test ava test/styler.bench.js",
     "bench::util": "NODE_ENV=test ava test/util.bench.js",
     "build": "rollup -c",
-    "clean": "rm -f stylething.js; rm -f stylething.min.js; rm -f stylething.esm.js; rm -rf dist",
+    "clean": "rm -rf dist; rm -f *stylething* *theme* *bssHelpers*",
     "cover": "nyc report --reporter=html --reporter=lcov > coverage.lcov",
     "codecov": "nyc report --reporter=html --reporter=lcov > coverage.lcov && npx codecov",
     "lint": "standard | snazzy",
@@ -75,14 +75,20 @@
       "test/**/*",
       "stylething.js",
       "stylething.min.js",
-      "stylething.esm.js"
+      "stylething.esm.js",
+      "theme.js",
+      "theme.min.js",
+      "theme.esm.js"
     ]
   },
   "standard": {
     "ignore": [
       "stylething.js",
       "stylething.min.js",
-      "stylething.esm.js"
+      "stylething.esm.js",
+      "theme.js",
+      "theme.min.js",
+      "theme.esm.js"
     ]
   },
   "peerDependencies": { "bss": "^1.4.0" }

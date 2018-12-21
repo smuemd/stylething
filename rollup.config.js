@@ -53,44 +53,85 @@ export default [
       buble(),
       filesize()
     ]
-  }
+  },
 
-  // {
-  //   input: 'lib/theme.js',
-  //   output: {
-  //     file: './theme.js',
-  //     exports: 'default',
-  //     format: 'umd',
-  //     name: 'theme',
-  //     sourcemap: true
-  //   },
-  //   plugins: process.env.TEST
-  //     ? []
-  //     : [ buble(), filesize() ]
-  // }, {
-  //   input: 'lib/theme.js',
-  //   output: {
-  //     file: './theme.min.js',
-  //     exports: 'default',
-  //     format: 'umd',
-  //     name: 'defaultTheme',
-  //     sourcemap: true
-  //   },
-  //   plugins: [
-  //     buble(),
-  //     uglify({ mangle: true, compress: true }),
-  //     filesize()
-  //   ]
-  // }, {
-  //   input: 'lib/theme.js',
-  //   output: {
-  //     file: 'esm/theme.js',
-  //     format: 'esm',
-  //     sourcemap: true
-  //   },
-  //   plugins: [
-  //     buble(),
-  //     filesize()
-  //   ]
-  // }
+  // theme
+  {
+    input: 'lib/theme.js',
+    output: {
+      file: './theme.js',
+      exports: 'named',
+      format: 'umd',
+      name: 'theme',
+      sourcemap: true
+    },
+    plugins: process.env.TEST
+      ? []
+      : [ buble(), filesize() ]
+  }, {
+    input: 'lib/theme.js',
+    output: {
+      file: './theme.min.js',
+      exports: 'named',
+      format: 'umd',
+      name: 'defaultTheme',
+      sourcemap: true
+    },
+    plugins: [
+      buble(),
+      uglify({ mangle: true, compress: true }),
+      filesize()
+    ]
+  }, {
+    input: 'lib/theme.js',
+    output: {
+      file: 'theme.esm.js',
+      format: 'esm',
+      sourcemap: true
+    },
+    plugins: [
+      buble(),
+      filesize()
+    ]
+  },
+
+  // helpers
+  {
+    input: 'lib/bssHelpers.js',
+    output: {
+      file: './bssHelpers.js',
+      exports: 'named',
+      format: 'umd',
+      name: 'helpers',
+      sourcemap: true
+    },
+    plugins: process.env.TEST
+      ? []
+      : [ buble(), filesize() ]
+  }, {
+    input: 'lib/bssHelpers.js',
+    output: {
+      file: './bssHelpers.min.js',
+      exports: 'named',
+      format: 'umd',
+      name: 'helpers',
+      sourcemap: true
+    },
+    plugins: [
+      buble(),
+      uglify({ mangle: true, compress: true }),
+      filesize()
+    ]
+  }, {
+    input: 'lib/bssHelpers.js',
+    output: {
+      file: 'bssHelpers.esm.js',
+      format: 'esm',
+      sourcemap: true
+    },
+    plugins: [
+      buble(),
+      filesize()
+    ]
+  }
 ]
