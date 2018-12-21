@@ -229,14 +229,14 @@ For handling responsive styles, it is recommended to define media queries direct
 ```js
 import m from 'mithril'
 import b from 'bss'
-import { createStyler } from 'stylething'
+import { createComponentFactory } from 'stylething'
 
 // use BSS media query groupers
 b.helper('notSmall', style => b.$media('screen and (min-width: 30em)', style))
 b.helper('large', style => b.$media('screen and (min-width: 60em)', style))
 
 // set up styled component factory
-const styled = createStyler(b, { m })
+const styled = createComponentFactory(b, { m })
 
 // create a responsively styled static component
 const Responsive = styled('button', b`
@@ -318,13 +318,13 @@ A live example [is available here](https://flems.io/#0=N4IgtglgJlA2CmIBcBWATAOgO
 
 #### Custom theme
 
-Systemthing's default values can be customised when initially setting up the `styled` factory. Here is an idiomatic example that passes a custom theme into Stylethings `createStyler` function.
+Systemthing's default values can be customised when initially setting up the `styled` factory. Here is an idiomatic example that passes a custom theme into Stylethings `createComponentFactory` function.
 
 ```js
 import m from 'mithril'
 import b from 'bss'
 import { borderRadius, borders, color, fontSize, space } from 'systemthing'
-import { createStyler } from 'stylething'
+import { createComponentFactory } from 'stylething'
 
 const newTheme = {
   breakpoints: [ '32em', '48em', '64em' ],
@@ -342,7 +342,7 @@ const newTheme = {
 newTheme.space.big = 64
 newTheme.fontSizes.big = 128
 
-const styled = createStyler(b, {
+const styled = createComponentFactory(b, {
   m,
   outputType: 'class',
   theme: newTheme
