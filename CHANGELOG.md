@@ -1,6 +1,41 @@
 
 # Changelog
 
+## v1.5 2018-12-21
+
+Add additional option to the ways in which `theme` and `bssHelpers` are exposed and consumed:
+
+previously `theme` and `createBssHelpers` could be accessed directly from the Stylething main module
+```js
+// old
+import { theme, createBssHelpers } from 'stylething'
+```
+
+in v1.5 `theme` and `createBssHelpers` live in their own module each
+
+```js
+// new
+import * as theme from 'stylething/theme'
+import { createBssHelpers } from 'stylething/bssHelpers'
+```
+
+### Added
+
+**in `lib/helpers.js`**
+- new helpers `b.nbfc` & `b.nbfcAlt` - Create new block formarting context
+
+### Changed
+
+**`lib/theme.js`** 
+- removes default export, adds named exports - BREAKING, internally -
+
+**`lib/bssHelpers.js`**
+- renamed lib/bssHelper.js to lib/bssHelpers.js
+- fix an exception thrown when no `theme` was provided as an argument
+
+**`rollup.config.js`**
+- compile `stylething`, `theme`,`bssHelpers` as separate files / packages
+
 ## v1.4 2018-12-19
 
 - add bss Helper factory
