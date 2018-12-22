@@ -74,14 +74,18 @@ Initialize Stylething helpers by passing the return value of the `createBssHelpe
 /* define components */
 
 // Floats container
-const Container = styled('div.Container' + b({ backgroundColor: theme.colors.yellow }).clearfix)
+const Container =
+  styled('div.Container' + b(`backgroundColor: ${theme.colors.yellow};`).clearfix)
 
 // Generic box
-const Box = styled('div', b({ width: '100px', height: '100px', backgroundColor: theme.colors.lightGreen }))
+const Box = styled('div' + b`
+  width: '100px';
+  height: '100px';
+  backgroundColor: ${theme.colors.lightGreen};`)
 
 const exampleI = { view: () =>
   m(Container,
-    m(Box, { float: 'left'}), // <- float available prop on styled component
+    m(Box, { float: 'left' }), // <- float available prop on styled component
     m(Box, { 
       float: 'left',
       marginLeft: '1em'
@@ -97,16 +101,18 @@ m.mount(document.body, exampleI)
 /* global m, b, theme, styled */
 
 // style Elements directly with the b instance
-const floatLeft = b`
-  float: left;
+const yellowBg = b('backgroundColor: ' + theme.colors.yellow + ';')
+const greenSquare = b`
   background-color: ${theme.colors.lightGreen};
-  width: 100px;
-  height: 100px;`
+  height: 100px;
+  width: 100px;`
+const nbfc = b.nbfc
+const floatLeft = b('float: left;')
 
 const exampleII = { view: () =>
-  m('div' + b({ backgroundColor: theme.colors.yellow }), [
-    m('div.Left' + floatLeft),
-    m('div.Nbfc' + b.nbfc, [
+  m('div' + yellowBg, [
+    m('div.Left' + floatLeft + greenSquare),
+    m('div.Nbfc' + nbfc, [
       m('p', 'The text should not wrap under the float.'),
       m('p', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ut tincidunt nulla. Suspendisse semper, nisl vitae ultricies vulputate, metus tortor tincidunt neque, sed feugiat lacus ipsum eu neque. Mauris pharetra facilisis turpis, ac lacinia justo fermentum vel. Maecenas sed semper nisi. Integer sed erat nec sem mattis dignissim.')
     ])
