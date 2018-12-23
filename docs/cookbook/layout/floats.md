@@ -32,8 +32,7 @@ Stylething provides tree optional BSS helpers that supplement the `float` attrib
 
 ## Usage
 
-### Set up
-
+### import
 **Import Stylething and external dependenies**
 
 ```bash
@@ -41,6 +40,8 @@ npm i stylething bss mithril
 ``` 
 
 Stylething works in tandem with the Better Style Sheets (BSS) library and a virtual DOM layer of your choice. This example uses Mithril, but React and Preact are also supported.
+
+### Set up
 
 **Configure the Stylething component factory**
 
