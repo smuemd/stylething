@@ -2,7 +2,7 @@
 
 # Vertical Align
 
-Vertical align works on inline-level elements (display inline and inline-block) and on table cells.
+[Vertical align](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align) works on inline-level elements (display inline and inline-block) and on table cells.
 
 For more info visit [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align)
 
@@ -28,55 +28,59 @@ b.align('baseline') // Vertically align to baseline (initial value).
 b.align('super') // Aligns the baseline of the element with the superscript-baseline of its parent.
 ```
 
-### Set up
+## Usage
+
+#### Set up
 
 Stylething BSS helpers are initialized by passing the return value of `createBssHelpers` into the `helper` function of the `b` instance.
 ```js
 import b from 'bss'
-import { dfaultTheme, createBssHelpers } from 'stylething'
+import * as theme from 'stylething/theme.esm'
+import {createBssHelpers } from 'stylething/bssHelpers.esm'
 
 // initialize helpers
-b.helper(createBssHelpers(b, dfaultTheme))
+b.helper(createBssHelpers(b, theme))
 ```
-
-## Usage
 
 Once initialized, Stylething BSS helpers are available on the the `b` instance.
 
 ```js
 /* global b */
-import m from 'mithril'
-import { createStyler } from 'stylething'
 
-const styled = createStyler(b, { m })
+import m from 'mithril'
+import { createComponentFactory } from 'stylething'
+
+const styled = createComponentFactory(b, { m })
+
+// raw styles
+const fs42 = b`font-size: 42px;`
+const toTop = b.align('top')
+const inlinedSquare = b`
+  height: .5em;
+  width: .5em;
+  display: inline-block;
+`
 
 // components
-const HOne = 'h1' + b.fs('42px')
-const BoxyTop = styled('span.Boxy', b
-  .display('inline-block')
-  .align('top') // <- your helper in action, right there!
-  .width('.5em')
-  .height('.5em')
-  .marginLeft('.5em'))
+const HOne = styled('h1' + fs42)
+const BoxyTop = styled('span.Boxy' + inlinedSquare + toTop)
 
-m.mount(document.body, { view: () =>
-  m(HOne, [
+// App
+const App = { view: () =>
+  m(HOne,[
     'Large Text',
     m(BoxyTop, { backgroundColor: 'pink' })
   ])
-})
+}
+
+m.mount(document.body, App)
 ```
 
 `vertical-align` and `verticalAlign` however remain accessible as a regular css properties.
 
 ```js
-const BoxyBase = styled('span.Boxy', b(`
-  display: inline-block;
-  vertical-align: baseline; // <- vanilla css prop
-  width: 0.5em;
-  height: 0.5em;
-  margin-left: .5em;
-`))
+const toBase = b`vertical-alingn: baseline;`
+const BoxyBase = styled(BoxyTop + toBase) // overwrites boxyTop to align at baseline
 ```
 
 <!-- 

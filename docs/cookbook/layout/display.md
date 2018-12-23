@@ -6,10 +6,9 @@
 >
 > — css3 Display Module Spec
 
-Stylething optionally provides single purpose BSS helpers for setting the display of an element at any breakpoint.
-
-For more information consult [the MDN docs](https://developer.mozilla.org/en-US/docs/Web/CSS/display).
-## Available BSS helpers
+Stylething optionally provides single purpose BSS helpers for setting the [display](https://developer.mozilla.org/en-US/docs/Web/CSS/display) of an element.
+.
+## BSS helpers
 
 **`displays`**
 
@@ -27,18 +26,18 @@ For more information consult [the MDN docs](https://developer.mozilla.org/en-US/
 - `b.flexBlock` - Display `flex`.
 - `b.flexInline` - Display `inline-flex`.
 
+## Usage
+
 ### Helper set up
 
 Stylething BSS helpers are initialized by passing the return value of `createBssHelpers` into the `helper` function of the `b` instance.
 ```js
 import b from 'bss'
-import { dfaultTheme, createBssHelpers } from 'stylething'
+import { createBssHelpers } from 'stylething/cssHelpers'
 
 // initialize helpers
-b.helper(createBssHelpers(b, dfaultTheme))
+b.helper(createBssHelpers(b))
 ```
-
-## Usage
 
 Once initialized, Stylething BSS helpers become available on the the `b` instance.
 
@@ -148,7 +147,7 @@ m.mount(document.body, { view: () =>
 
 ```js
 // static styled Component
-const SoftDiv = styled('div', b.display('inline-block'))
+const SoftDiv = styled('div', b('display: inline-block;'))
 
 m.render(document.getElementById('render'), m('div', [
   m(SoftDiv, '...as div with display: inline-block'),
