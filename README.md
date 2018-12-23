@@ -1,6 +1,6 @@
 # A Style Thing
 
-Style aware components on top of [BSS][bss].
+Style aware components on top of [Better Style Sheets][bss].
 
 [![Build Status][ci]][travis]
 [![Version][]][npm]
@@ -124,8 +124,7 @@ const FancyButton = styled('button', b`
   bs 0 1 0 rgba(0,0,0,.35)
 `)
 
-// Feeling adventurous?
-let tealOrTomato = Math.random() > 0.5 ? 'teal' : 'tomato'
+const tealOrTomato = Math.random() > 0.5 ? 'teal' : 'tomato'
 
 // rendering FancyButton, overriding just backgroundColor
 m.mount(document.body,
@@ -142,7 +141,7 @@ A live example [is available here](https://flems.io/#0=N4IgtglgJlA2CmIBcAWAbAOgJ
 
 The Stylething API is flexible. Any of the following static style definition flavours (or combinations thereof) are supported:
 
-#### [BSS][bss] style definition (recommended)
+**1) [BSS][bss] style definition (recommended)**
 
 BSS is the recommended way for defining styles. Refer to the [BSS documentation][bss] for more details.
 
@@ -150,13 +149,13 @@ BSS is the recommended way for defining styles. Refer to the [BSS documentation]
 const Box = styled('div', b`padding 1em`)
 ```
 
-#### POJO style definition
+**2) Hyperscript queries**
 
 ```js
-const Box = styled('div', { padding: '1em' })
+const Span = styled('span#identifyer.one.two[hot=true][hyper=coool]') // <span id="identifyer" class="one two" hot=true hyper="cool"></span>
 ```
 
-#### Externally defined css class
+**3) Externally defined css classes**
 
 It is possible to reference external css by passing a class string as the second argument
 
@@ -164,10 +163,10 @@ It is possible to reference external css by passing a class string as the second
 const Box = styled('div', 'externally defined class') // <div class="externally defined class"></div>
 ```
 
-#### Hyperscript query
+**4) POJO style definition**
 
 ```js
-const Span = styled('span#identifyer.one.two[hot=true][hyper=coool]') // <span id="identifyer" class="one two" hot=true hyper="cool"></span>
+const Box = styled('div', { padding: '1em' })
 ```
 
 ### Inherit and extend
@@ -269,7 +268,18 @@ m.mount(document.body,
 ```
 A live example [is available here](https://flems.io/#0=N4IgtglgJlA2CmIBcAWAHAOgAwGYA0IAxgPYB2AzsQskVbAIYAO58UIBAZhAucgNqhS9MIiQgMACwAuYWO1qkp8RTQA8UCADcABNAC8AHXAARLUYB8qgPQbN5g6QfqtuqIZAAnePUJTTmi2tbc3kWBF8IMl4xACYkGIBWEABfPEFhUXEAK14CEkVlKRp88iltYG1CL3olAGUpAE8ED21k7T1tUqb4KQkIUgBzBwcrK20AVxZtACFa2u0RDXptAEdx+A8G7QGPYnHGDfIHACNJeFgDjwAKAHJSYilasHpYWBu8TsaEdvNtU4ASRYQei3chVeDKbT0UhQbRXSCkAC0AHdoL0kNocFh4GAAJTvT7dXG4k5nC4bW4MDwDeAErrfPS-AFAkE3MFeSHQ2Hw-ootESDEANmxeLpX3gxOGpFGnR6E0YhIQsJIYEYZEK2g4PikxE2DhKZXprHalWqdXF12OHwqYFaJMc0rG4Jq8Ch2i85DVFC05y2RthpRqEEIlWIqvVin1UTKACV4J6oj6Tf7bsdxlIdaQCccAAYObR-XVQDYYmKMAAenSo0G0jBe8E0kQQUi8UAA3PnCx5ix5ER56BpJhicBWO6QCyRYLqMXWEI2qD1W2OCxwyFJEeQIAAveAYgCMOOXC3o1P6+8PnbrMH6AwxWAwiRx2gPYDHOYw90ez1eefHXZ7pYVtoUAPEosI6s8OpHscRYbH2A4QEO2gJKOnaTtO2gQTUxBHquigbtuu7aDEWCoX+V4aIMd4YCgT57g+CQXqQ75UjSv4FjB3YlsRQGULANZLp2nE9vBg7kBiADsZETlQGGCX+eHrpuO6lig0m1gOlG3to96CnRNFMTm9oOGAGBgHsijwv41qdo28DIhiHDjKQERkHCuLlJ2BZeFI4weH+YC3LYBJ8F5BYLFccYJt6mjwHgYXheU2hkIQ-GEAA1hiVweYyULNFItwABLnFO2hRV6m6xQAhDcHmpAl4U3OViaxbAfrirCqK9DMcy1QlAC69oFskDjJPa8gqow3AbDQxz0Mc5yhOc8CuRQNAAJyoGgiKbVgKRpCAQgiDQGCEOQuQKEoKhiCk-UEPxpDpdEAiHRkNCQL0HjcPIflyGI0hSMwSCjM5jDpQMp1hlYH0SF9sAAAL0fRgrQxAn3cBgOTyI0Bw0OyECMEUqTpMdYjHOdP0eH9IAA0DIOkGDEMqlY5PkIjGAJNgLPnZjF045k+OE-tJMC+KvQ3pT1O0+J9OM5DYBWEa4uDOzMRcxopSK2LfSDLz2MNLjYiC0T-XJEAA)
 
-- _TODO: theming w/ BSS_
+Preconfigured media querie groupers for BSS are available in [the `stylething/bssHelpers` module](lib/bssHelpers.js). The following examples illustrates how to activate Stylething helpers:
+
+```js
+import b from 'bss'
+import { createBssHelpers } from 'stylething/bssHelpers.esm'
+
+// initialising Stylething helpers on the BSS instance
+b.helper(createBssHelpers(b))
+```
+Initialize Stylething helpers by passing the return value of the `createBssHelpers` function into the `helper` method of the `b` instance.
+
+_[TODO] link to list of available helpers_
 
 ### CSS systems
 
@@ -399,6 +409,103 @@ m.mount(document.body,
 
 Live example [is availabe here](https://flems.io/#0=N4IgtglgJlA2CmIBcAWAnAOgBwGYA0IAhgK4AuA9gEryzmFTIBmhsAzvAYxAq8gNqgAdoTCIkIDAAtSYWCAIBjcoNLwVyEAB4oEAG4ACaAF4AOuAAieswD5NAeh27rJwS+17DUUyABO8Qgqklro29o7W8iDsCIEQyrziAExIiQCsIAC+eEIiYhIAVryKyqrq4kqCrKT6wPoARuQ+UPA+lPQQxKx49Y3NPl36SrQ+3YwlAMoQAF4c+qwADgHw+hn6RnMAnlXwYKSSEIIA5i4VVTWDfoSq46QbCD4ra3O3CHsHx66CdnaDneRg+j2O3gJ3i1UE8AA7gAVSTAp7AFz6eqXADW83IB1IrCQ+j4+gA5DhEjsCd0CSgsKTyQA2FCk-QAXTwSLmiwU8Fx+IADN0ad0AIyJQVYbqJFBMlmCZFjFSTGY4vH6IWC-nK0X6cXdHBqgDsiUlrJ87QgXP0+H0qW6uuZrKGjUViOlyPqsGInMJAGJubqFGTWcjDn41LiCZ6BQpuf7nYHjRsuWGFEmyV7UmmCYzWRkXNnPt85vBqsR5r8qv9AXDRFBnnd4NWlGAMRCVPpmIFGhtQZVqlVa9X1gpLtcXi0ABR1bq1MDdIGiXEQmGV5YZACULhc+cH-lU+kI+j8C3iehoGxrCHr-ybalI3UhED2+igG2EkAUZ+WGwgNB0R1bxEECisF2ZwAEJkBQ0rrL256jgSdTgcoKZ1AABqydRvkG8Cds6b6QvsqisiWQqaigrKMKwyo0qypBFvM8wtAohDsGhvQtPogjKCCzp1A8OCspAggALR3lAD5CtydrEP0jT6BiWItNRxqVPecTStyGA4ICSmsGMPjTvo6maeQ7L3thyJ1BR3LKpq+6HHUhCjryBndE5GmpGuzrCfAdSovegmyqQgmsGA5DkG8Ry4oQKgQCwMXsFAADcLjIRgAAkkjkLoLSoc6pDabpAJ5VFrCwFc8AAJqjoJArzAAHh5MrcKoDw8RAhzSBCrCsKOAo4NyACkDX1JZ1mpLZ9mOS5U36G5HkpalASkMeOWNbAzUom1HXwF1PXcgNQ1FZUBVacVpWqJV3JDVwa1sWhI0CgZ40OU5L3dLNyXdA0TQtG0OidJ9rH9N09ojK2EzTLMCxLB5LhgBgIX-qQo5gMEk6sroX6QrijD-rEyj6KOK41AG+6FlJzpgLBjgpnwJPInT+iU2BNHKGjMYuuZASokG5D-lAADC5DDAmFBgFc5ApgSqgsJLiwIBjQuFn4UAZlKHMc-mkiEE0SjNNWX19I+8CMLug7kF1jPEGtEDzAgKL+OimIqEB7McwbLRmgSiR1XMQvQLJLDwArrzK5L3u1Y+YWqNWovi2HPusH71ah4arsuvms51j030PMaOgQATmcYHnEAQETAQ+ObFFgFbS228sPEO3JzsM+ZgO-R0io8oKYqp+r6c-FrOvkHrgxCzJFdV5b1v1-bhCO1iLv98iIOe3UbrwJLmFqFvcYYFGffL-mAXyssugsO6FH4wonSi4CGwYkGhDzPsb6sIxdujkXJ8Q6w5dmxbGuM87aN3ns3bErcwZyghmaYU5pugSltGnZEGclzViyj4JaH9dyCGrBlHw0wSgsADjAd4hclwYChhyf+ldAG1xtiAtE4Cl7L3mPGJUAoxTakPv3OqnsBTUkJAKDAaRBEEmEfSMABIeHq01trC8o8OLSgPE2Vgx5Gba0OAcFh-cxY+C0YIUMAipFqyPj8BsV4WxB2vPoLWuD7iQOUAoWAEAFColxITNY1hdz3CRgSAAEjQWg+gABiUUFCnmoIeZSWV9DmGfCIVxBIhocyyISAAai0U8KijyxIAGSPgSa+ZJJNGRDVzKuFwkQLHcBaBoeydQaCRGiPAPGlQNACiwEgbkmRsggBfHkDAgEiggAqKUUgGhMjMhAC4wQqIEgCH6bkDQkA9gELkAQKSchxDSFIPMHE3x-zzG5kM-4dhVmSHWQAAWEcImk5z7yXO4BgQokRbj0Q0O-Ah8wJlZByKIepXVIhbI0Ls-ZSBDmCGOYcU5YA7AWVYDcjAqR97wq6i8kZ7y8hfJtr8vpAzPlbFULsfYRxgU+G2SAMFBy7BHJOQ2OwrAiU7HCocJFuoUCop0FURlzKSXvAxW8h+2LBy4t6f87FI5WXkspdSiFtKoX0rOdBQspK2XCMSFyiAPKVWssFQQLFnzRU-KmRkIAA)
 
+An example theme with preset values can be obtained from the [the `stylething/theme` module](lib/bssHelpers.js).
+
+```js
+import * as dfaultTheme from 'stylething/theme.esm'
+```
+
+The default theme exposes the following values
+
+```js
+/* lib/theme.js */ 
+
+// docs/style-cookbook/media-queries.md
+export const breakpoints = [ '30em', '60em' ]
+
+// docs/style-cookbook/layout/spacing.md
+export const space = [ 0, '.25rem', '.5rem', '1rem', '2rem', '4rem', '8rem', '16rem' ]
+
+// docs/style-cookbook/typography/type-scale.md
+export const fontSizes = [ '.75rem', '.875rem', '1rem', '1.25rem', '1.5rem', '2.25rem', '3rem', '5rem', '6rem' ]
+fontSizes.subheadline = fontSizes[ 7 ]
+fontSizes.headline = fontSizes[ 8 ]
+
+// docs/style-cookbook/themed/border-radii.md
+export const radii = [ '0', '.125rem', '.25rem', '.5rem', '1rem' ]
+radii.pill = '9999px'
+radii.max = '100%'
+
+// docs/style-cookbook/themed/colors.md
+export const colors = {
+  // Grayscale Solids
+  black: '#000',
+  nearBlack: '#111',
+  darkGray: '#333',
+  midGray: '#555',
+  gray: '#777',
+  silver: '#999',
+  lightSilver: '#aaa',
+  moonGray: '#ccc',
+  lightGray: '#eee',
+  nearWhite: '#f4f4f4',
+  white: '#fff',
+
+  // Grayscale Transparencies
+  transparent: 'transparent',
+  black90: 'rgba(0,0,0,.9)',
+  black80: 'rgba(0,0,0,.8)',
+  black70: 'rgba(0,0,0,.7)',
+  black60: 'rgba(0,0,0,.6)',
+  black50: 'rgba(0,0,0,.5)',
+  black40: 'rgba(0,0,0,.4)',
+  black30: 'rgba(0,0,0,.3)',
+  black20: 'rgba(0,0,0,.2)',
+  black10: 'rgba(0,0,0,.1)',
+  black05: 'rgba(0,0,0,.05)',
+  black025: 'rgba(0,0,0,.025)',
+  black0125: 'rgba(0,0,0,.0125)',
+  white90: 'rgba(255,255,255,.9)',
+  white80: 'rgba(255,255,255,.8)',
+  white70: 'rgba(255,255,255,.7)',
+  white60: 'rgba(255,255,255,.6)',
+  white50: 'rgba(255,255,255,.5)',
+  white40: 'rgba(255,255,255,.4)',
+  white30: 'rgba(255,255,255,.3)',
+  white20: 'rgba(255,255,255,.2)',
+  white10: 'rgba(255,255,255,.1)',
+  white05: 'rgba(255,255,255,.05)',
+  white025: 'rgba(255,255,255,.025)',
+  white0125: 'rgba(255,255,255,.0125)',
+
+  // Colors
+  darkRed: '#e7040f',
+  red: '#ff4136',
+  lightRed: '#ff725c',
+  orange: '#ff6300',
+  gold: '#ffb700',
+  yellow: '#ffd700',
+  lightYellow: '#fbf1a9',
+  purple: '#5e2ca5',
+  lightPurple: '#a463f2',
+  darkPink: '#d5008f',
+  hotPink: '#ff41b4',
+  pink: '#ff80cc',
+  lightPink: '#ffa3d7',
+  darkGreen: '#137752',
+  green: '#19a974',
+  lightGreen: '#9eebcf',
+  navy: '#001b44',
+  darkBlue: '#00449e',
+  blue: '#357edd',
+  lightBlue: '#96ccff',
+  lightestBlue: '#cdecff',
+  washedBlue: '#f6fffe',
+  washedGreen: '#e8fdf5',
+  washedYellow: '#fffceb',
+  washedRed: '#ffdfdf'
+}
+```
 ## Documentation
 
 - _todo_
