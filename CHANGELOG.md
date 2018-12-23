@@ -1,6 +1,32 @@
 
 # Changelog
 
+## v2.6 2018-12-23
+
+Very breaking. Removes legacy exports of `createStyler`, `theme` and `createBssHelpers` from `lib/index.js`
+
+These are the idiomatic ways to import Stylething utilities in v2.6:
+
+```js
+import { createComponentFactory } from 'stylething'
+import { createBssHelpers } from 'stylething/bssHelpers.esm'
+import * as theme from 'stylething/theme.esm'
+```
+
+### Changed
+
+**`lib/index.js` (BREAKING)**
+- rm legacy `createStyler` named export
+- rm legacy `createBssHelpers` named export
+- rm legacy `theme` named export
+
+**`lib/styler.js` (BREAKING)**
+- rm legacy `createStyler` named export
+
+**`lib/bssHelpers.js`**
+- bypass bss sanitizing for optimal perf (see https://github.com/porsager/bss/issues/42)
+- fix `flexExpand` fn
+
 ## v1.5 2018-12-21
 
 Add additional option to the ways in which `theme` and `bssHelpers` are exposed and consumed:
