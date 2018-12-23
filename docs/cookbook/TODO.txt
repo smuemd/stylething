@@ -1,0 +1,56 @@
+Utils align
+https://github.com/suitcss/utils-align/
+- implemented as `b.align(<value>)`
+- documented at `cookbook/typography/align.md`
+
+display
+https://github.com/suitcss/utils-display/
+- implemented as `b.display(<value>)`
+- documented at `cookbook/layout/display.md`
+
+utils layout
+https://github.com/suitcss/utils-layout/
+ - implemented as `b.float(<value>)`, `b.nbfc`, `b.clearfix`
+ - documented at `cookbook/layout/clearfix.md` and `cookbook/layout/floats.md`
+
+links
+https://github.com/suitcss/utils-link/
+http://tachyons.io/docs/elements/links/
+- not implemented
+- documented at cookbook/elements/links.md
+
+Offset (after / before)
+https://github.com/suitcss/utils-offset/
+https://github.com/suitcss/utils-after
+https://github.com/suitcss/utils-before
+- not implemented
+- not documented
+
+Position
+https://github.com/suitcss/utils-position/
+http://tachyons.io/docs/layout/position/
+- not implemented
+- documented at `cookbook/layout/position.md`
+
+Size
+https://github.com/suitcss/utils-size/
+http://tachyons.io/docs/layout/widths/
+http://tachyons.io/docs/layout/heights/
+http://tachyons.io/docs/layout/max-widths/
+- Work in progress (b.fill, b.fillAlt,  b.fit, b.full)
+- missing: b.size(<x>, <y>?)
+- documented partially at `cookbook/layout/widths.md`
+
+Text / typography
+https://github.com/suitcss/utils-text/
+various at http://tachyons.io/docs/
+
+Flexbox
+https://github.com/suitcss/utils-flex
+- implemented as `b.flex<various>`
+- partially documented at `cookbook/layout/flexbox.md`
+
+Color
+http://tachyons.io/docs/themes/skins/
+- implemented as `theme.colors`
+- partially documened at `cookbook/color.md`, `cookbook/themed/skins.md`, cookbook/themed/skin-animations.md
