@@ -1,7 +1,7 @@
 import test from 'ava'
 import cssParser from 'bss'
 import { handle1st, handle2nd, handleFns, createPrelimRes, preCompute } from '../lib/styler'
-import { createComponentFactory, createStyler } from '../lib'
+import { createComponentFactory } from '../lib'
 import { sortAttrs } from '../lib/util'
 
 const Window = require('window')
@@ -281,9 +281,6 @@ test('compute returns correct className string or style object', t => {
 
 // createComponentFactory
 
-test('createComponentFactory alias createStyler', t => {
-  t.is(createComponentFactory, createStyler)
-})
 test('createComponentFactory returns a styled component factory', t => {
   const React = { createElement: (tag, props) => ({ tag, props }) }
   const m = (t, a, ...c) => ({ tag: t, vnode: { attrs: a, children: c } })
