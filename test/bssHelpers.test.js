@@ -15,14 +15,17 @@ test('createBssHelpers returns bss helper object', t => {
 test('createBssHelpers media groupers work', t => {
   const A = b`backgroundColor pink`.$notSmall`backgroundColor red`
   const B = b`backgroundColor pink`.$large`backgroundColor red`
-  let C = Hlprs.flexExpand('auto')
+  let C = Hlprs.flexExpand('all')
   let D = Hlprs.flexExpand('whatever')
   let E = Hlprs.flexExpand('top')
   let F = Hlprs.align()
+  let G = Hlprs.hoverBg(theme.colors.darkGray)
+  let H = Hlprs.hoverColor(theme.colors.darkRed)
+  let I = Hlprs.setBorder('3px solid pink')
 
   for (const k in Hlprs) {
     const helper = Hlprs[k]
-    let res = helper.hasOwnProperty('style') ? helper : helper('test')
+    const res = typeof helper === 'function' ? b(helper('test')) : b(helper)
     t.is(typeof res, 'object')
     t.is(typeof res.__style, 'object')
   }
@@ -43,4 +46,13 @@ test('createBssHelpers media groupers work', t => {
   t.deepEqual(D.__style, { margin: 'initial' })
   t.deepEqual(E.__style, { marginTop: 'auto' })
   t.deepEqual(F.__style, { verticalAlign: 'initial' })
+  t.deepEqual(G.__style, {
+    ':focus': { backgroundColor: theme.colors.darkGray },
+    ':hover': { backgroundColor: theme.colors.darkGray }
+  })
+  t.deepEqual(H.__style, {
+    ':focus': { color: theme.colors.darkRed },
+    ':hover': { color: theme.colors.darkRed }
+  })
+  t.deepEqual(I.__style, { border: '3px solid pink' })
 })
