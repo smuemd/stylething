@@ -4,7 +4,7 @@
 
 ### Content
 - [Skins](skins.md)
-- [Skin Animations](skin-animations.md)
+- [Skin Animations](skins-pseudo.md)
 - [Hover Effects](hover-effects.md)
 - [Background Size](background-size.md)
 - [Size]()
