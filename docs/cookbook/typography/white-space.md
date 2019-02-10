@@ -1,6 +1,7 @@
 ###### [Theming Cookbook](../index.md)  >  [Typography](./index.md)
 
 # White Space
+https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
 
 White space in css is used to control how whitespace is rendered. Creative, I know.
 
@@ -19,6 +20,11 @@ White space in css is used to control how whitespace is rendered. Creative, I kn
 .ws-normal { white-space: normal; }
 .nowrap { white-space: nowrap; }
 .pre { white-space: pre; }
+
+/** SUITCSS flavor */
+.u-textNoWrap {
+  white-space: nowrap !important;
+}
 
 ```
 

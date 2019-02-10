@@ -22,3 +22,25 @@ Tachyons has some basic form control resets to remove default styles for mobile 
   padding: 0;
 }
 ```
+
+```js
+function reset (type = 'input') {
+  const map = {
+    button: {
+      '::-moz-focus-inner': {
+        border: '0',
+        padding: '0'
+      }
+    },
+    input: {
+      '-webkit-appearance': 'none',
+      '-moz-appearance': 'none',
+      '::-moz-focus-inner': {
+        border: '0',
+        padding: '0'
+      }
+    }
+  }
+  return map[type] || map.input
+}
+```

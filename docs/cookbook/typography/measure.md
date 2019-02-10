@@ -52,6 +52,15 @@ Tachyons provides 3 classes for setting measure.
   text-overflow: ellipsis;
 }
 
+/** suit css version */
+.u-textTruncate {
+  max-width: 100%; /* 1 */
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  word-wrap: normal !important; /* 2 */
+}
+
 ```
 
 ##### Related
