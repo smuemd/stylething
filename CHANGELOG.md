@@ -1,6 +1,81 @@
 
 # Changelog
 
+## v2.7 10.02.2019
+
+### Added
+
+new bss helpers
+  - bgCover
+  - bgContian
+  - setBorder,
+  - setBorderStyle,
+  - setBorderColor,
+  - setBorderWidth,
+  - setBorderRadius,
+  - link,
+  - hoverDim,
+  - hoverGlow,
+  - hideChild,
+  - hoverUnderline,
+  - hoverGrow,
+  - hoverGrowLarge,
+  - hoverPointer,
+  - hoverShadow fn,
+  - bgAnimate,
+  - hoverBg fn,
+  - hoverColer fn,
+  - size (w, h)
+  - fill,
+  - fillAlt,
+  - fit,
+  - full,
+  - textBreak,
+  - textCenter,
+  - textLeft,
+  - textRight,
+  - textJustify,
+  - textKern,
+  - textNoWrap,
+  - textMeasure,
+  - textMeasureWide,
+  - textMeasureNarrow,
+  - textIndent,
+  - textTruncate,
+  - textStrikethrough,
+  - textUnderline,
+  - textNoUnderline,
+  - textNoTransform,
+  - textCaps,
+  - textLowerCase,
+  - textUpperCase,
+  - textTitlingCaps,
+  - textSmallCaps,
+  - textSmallCapsAll,
+  - textTracked,
+  - textTrackedTight,
+  - textTrackedMega,
+  - lineHightSolid,
+  - lineHeightTitle,
+  - lineHeightCopy,
+  - reset ('input' || 'button' || 'list'),
+  - center,
+  - collapse,
+  - striped
+  
+  
+### Changed
+
+refactor bssHelpers
+ - define stiles outside of createBssHelpers functions
+ 
+lib/theme
+  - add shadows array
+  - add opacities map
+
+docs/cookbook
+ - WIP updates
+ 
 ## v2.6 2018-12-23
 
 Very breaking. Removes legacy exports of `createStyler`, `theme` and `createBssHelpers` from `lib/index.js`
