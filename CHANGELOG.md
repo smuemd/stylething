@@ -1,6 +1,23 @@
 
 # Changelog
 
+## v3.8 [10.02.2019]
+
+### Changed
+
+update bss helpers
+ - rename textUpperCase to textUppercase (breaking)
+ - rename textLowerCase to textLowercase (breaking)
+ 
+Makes invoking helpers in template literals a bit nicer in some situations.
+
+```js
+let upper = b`
+  font-size: 1.5rem;
+  text-uppercase;` // instead of 'text-upper-case'
+```
+ 
+
 ## v2.7 10.02.2019
 
 ### Added
