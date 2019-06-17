@@ -1,13 +1,14 @@
 
 # Changelog
 
-## v3.8 [10.02.2019]
+## v3.8 [unpublished]
 
 ### Changed
 
 update bss helpers
  - rename textUpperCase to textUppercase (breaking)
  - rename textLowerCase to textLowercase (breaking)
+ - rename flexWrap helper to flexDoWrap to fix name collision with native `flex-wrap` css prop (breaking)
  
 Makes invoking helpers in template literals a bit nicer in some situations.
 
